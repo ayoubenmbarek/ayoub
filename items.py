@@ -12,6 +12,7 @@ class CarsalesmobileItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
         ANNONCE_LINK = scrapy.Field()
+        VIN = scrapy.Field()
         ANNONCE_DATE = scrapy.Field()
         ID_CLIENT = scrapy.Field()
         LOCATION = scrapy.Field()

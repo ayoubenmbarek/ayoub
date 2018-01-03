@@ -10,7 +10,7 @@ from ..items import CarsalesmobileItem
 from scrapy_splash import SplashRequest
 #try to use splash
 class CarsalesMobileSpider(scrapy.Spider):
-        name = "spidermobile03-11"#the hole last cache under spidermobile3 #old cache in spider mobile4
+        name = "spidermobile04-12"#the hole last cache under spidermobile3 #old cache in spider mobile4
         handle_httpstatus_list = [301, 302, 502, 200]
         allowed_domains = ["carsales.mobi"]
 	download_delay = 0
@@ -134,7 +134,7 @@ class CarsalesMobileSpider(scrapy.Spider):
                         request = scrapy.Request(full_url, headers=headers, callback = self.adv_page)
                         request.meta["myItem"] = myItem
                         yield request
-                for i in range(2,3717):#ancien 14/09 3795,i've started from 150 04/09  04/10 start from page3
+                for i in range(2,3672):#ancien 14/09 3795,i've started from 150 04/09  04/10 start from page3 #all 3717
                         #next_page = 'https://carsales.mobi/mobiapi/carsales/v2/stock/listing?p=Service.Carsales.&pg='+str(i)+'&ni=60'
 	                next_page = 'https://carsales.mobi/mobiapi/carsales/v2/stock/listing?p=Service.Carsales.&pg='+str(i)+'&sb=MakeModel&ni=60'
 	                yield scrapy.Request(next_page, headers=headers)#, callback = self.parse)
@@ -148,16 +148,33 @@ class CarsalesMobileSpider(scrapy.Spider):
                 myItem['ANNONCE_DATE'] =  data.get('Result')[0].get('GaData').get('Items')[4].get('Value')
             except:
                 pass
+            key = ' '
+            key1 = ' '
+            key2 = ' '
             try:
-            		key = data.get('Result')[0].get('Sections')[1].get('Tags')[18].get('Key')
-            		key1 = data.get('Result')[0].get('Sections')[1].get('Tags')[20].get('Key')
-            		if key == 'lmct':
-    				myItem['SIRET'] = data.get('Result')[0].get('Sections')[1].get('Tags')[18].get('Value')
-			elif key1 == 'lmct':
-				myItem['SIRET'] = data.get('Result')[0].get('Sections')[1].get('Tags')[20].get('Value')
-				
+	        key = data.get('Result')[0].get('Sections')[1].get('Tags')[18].get('Key')
             except:
             	pass
+	    try:
+	        key1 = data.get('Result')[0].get('Sections')[1].get('Tags')[20].get('Key')
+	    except:
+	        pass
+	    try:
+	        key2 = data.get('Result')[0].get('Sections')[1].get('Tags')[19].get('Key')
+	    except:
+	        pass        
+	    
+	    if key == 'lmct':
+		myItem['SIRET'] = data.get('Result')[0].get('Sections')[1].get('Tags')[18].get('Value')
+	    elif key1 == 'lmct':
+		myItem['SIRET'] = data.get('Result')[0].get('Sections')[1].get('Tags')[20].get('Value')
+	    elif key2 == 'lmct':
+	        myItem['SIRET'] = data.get('Result')[0].get('Sections')[1].get('Tags')[19].get('Value')
+            else:
+	        myItem['SIRET'] = ' '
+				
+            #except:
+            	#pass
     	    try:
     	        myItem["PHOTO"] = len(data.get('Result')[0].get('Media').get('Photos'))
     	    except:
