@@ -10,7 +10,7 @@ from ..items import CarsalesmobileItem
 from scrapy_splash import SplashRequest
 #try to use splash
 class CarsalesMobileSpider(scrapy.Spider):
-        name = "spidermobile04-12"#the hole last cache under spidermobile3 #old cache in spider mobile4
+        name = "spidermobile03-01-18"#the hole last cache under spidermobile3 #old cache in spider mobile4
         handle_httpstatus_list = [301, 302, 502, 200]
         allowed_domains = ["carsales.mobi"]
 	download_delay = 0
@@ -134,7 +134,7 @@ class CarsalesMobileSpider(scrapy.Spider):
                         request = scrapy.Request(full_url, headers=headers, callback = self.adv_page)
                         request.meta["myItem"] = myItem
                         yield request
-                for i in range(2,3672):#ancien 14/09 3795,i've started from 150 04/09  04/10 start from page3 #all 3717
+                for i in range(2,3672):#3569 on january2018 #ancien 14/09 3795,i've started from 150 04/09  04/10 start from page3 #all 3717
                         #next_page = 'https://carsales.mobi/mobiapi/carsales/v2/stock/listing?p=Service.Carsales.&pg='+str(i)+'&ni=60'
 	                next_page = 'https://carsales.mobi/mobiapi/carsales/v2/stock/listing?p=Service.Carsales.&pg='+str(i)+'&sb=MakeModel&ni=60'
 	                yield scrapy.Request(next_page, headers=headers)#, callback = self.parse)
